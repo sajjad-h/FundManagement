@@ -1,4 +1,7 @@
 using FundManagement.Api.Data;
+using FundManagement.Api.Data.Interfaces;
+using FundManagement.Api.Data.Repositories;
+using FundManagement.Api.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +16,35 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IFundRepository, FundRepository>();
+
 var app = builder.Build();
+
+// Data seeding for dev environment
+using (var scope = app.Services.CreateScope())
+{
+    var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    if (env.IsDevelopment())
+    {
+        await DataSeeder.SeedAsync(context);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
