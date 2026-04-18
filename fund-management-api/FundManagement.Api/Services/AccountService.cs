@@ -4,10 +4,11 @@ using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
 using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.Models;
+using FundManagement.Api.Services.Interfaces;
 
 namespace FundManagement.Api.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;

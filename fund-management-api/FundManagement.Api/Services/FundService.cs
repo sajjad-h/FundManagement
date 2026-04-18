@@ -5,10 +5,11 @@ using FundManagement.Api.Data.Repositories;
 using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.DTOs.Fund;
 using FundManagement.Api.Models;
+using FundManagement.Api.Services.Interfaces;
 
 namespace FundManagement.Api.Services
 {
-    public class FundService
+    public class FundService : IFundService
     {
         private readonly IFundRepository _fundRepository;
 

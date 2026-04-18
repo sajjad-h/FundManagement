@@ -4,11 +4,12 @@ using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
 using FundManagement.Api.DTOs.Portfolio;
 using FundManagement.Api.Models;
+using FundManagement.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FundManagement.Api.Services
 {
-    public class PortfolioService
+    public class PortfolioService : IPortfolioService
     {
         private readonly IUserRepository _userRepository;
         private readonly IFundRepository _fundRepository;
