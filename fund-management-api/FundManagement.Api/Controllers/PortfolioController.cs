@@ -1,4 +1,5 @@
 ﻿using FundManagement.Api.Data.Interfaces;
+using FundManagement.Api.DTOs.Portfolio;
 using FundManagement.Api.Models;
 using FundManagement.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +19,17 @@ namespace FundManagement.Api.Controllers
 
         // POST /api/portfolios/buy
         [HttpPost("buy")]
-        public async Task<IActionResult> BuyUnitsAsync([FromQuery] int userId, [FromQuery] int accountId, [FromQuery] int fundId, [FromQuery] decimal amount)
+        public async Task<IActionResult> BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
         {
-            await _portfolioService.BuyUnitsAsync(userId, accountId, fundId, amount);
+            await _portfolioService.BuyUnitsAsync(buyUnitsDto);
             return Ok();
         }
 
         // POST /api/portfolios/sell
         [HttpPost("sell")]
-        public async Task<IActionResult> SellUnitsAsync([FromQuery] int userId, [FromQuery] int accountId, [FromQuery] int fundId, [FromQuery] decimal unitsToSell)
+        public async Task<IActionResult> SellUnitsAsync(SellUnitsDto sellUnitsDto)
         {
-            await _portfolioService.SellUnitsAsync(userId, accountId, fundId, unitsToSell);
+            await _portfolioService.SellUnitsAsync(sellUnitsDto);
             return Ok();
         }
     }

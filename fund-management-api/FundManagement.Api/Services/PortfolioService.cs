@@ -2,6 +2,7 @@
 using FundManagement.Api.Data;
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
+using FundManagement.Api.DTOs.Portfolio;
 using FundManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,10 +25,12 @@ namespace FundManagement.Api.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task BuyUnitsAsync(int userId, int accountId, int fundId, decimal amount)
+        public async Task BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
         {
             try
             {
+                var ( userId, accountId, fundId, amount ) = buyUnitsDto;
+
                 var user = await _userRepository.GetByIdAsync(userId);
                 if (user == null)
                     throw new NotFoundException("User not found");
@@ -84,10 +87,12 @@ namespace FundManagement.Api.Services
             }
         }
 
-        public async Task SellUnitsAsync(int userId, int accountId, int fundId, decimal unitsToSell)
+        public async Task SellUnitsAsync(SellUnitsDto sellUnitsDto)
         {
             try
             {
+                var (userId, accountId, fundId, unitsToSell) = sellUnitsDto;
+
                 var user = await _userRepository.GetByIdAsync(userId);
                 if (user == null)
                     throw new NotFoundException("User not found");
