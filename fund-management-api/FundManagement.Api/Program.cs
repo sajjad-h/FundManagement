@@ -29,6 +29,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<PortfolioService>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<FundService>();
 
 var app = builder.Build();
 

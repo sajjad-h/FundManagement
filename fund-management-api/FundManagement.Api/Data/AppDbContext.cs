@@ -20,6 +20,10 @@ namespace FundManagement.Api.Data
                 .Property(f => f.NAV)
                 .HasPrecision(18, 4);
 
+            modelBuilder.Entity<Fund>()
+                .Property(f => f.CreatedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
+
             modelBuilder.Entity<Portfolio>()
                 .HasOne(p => p.User)
                 .WithMany()

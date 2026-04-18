@@ -1,5 +1,7 @@
 ﻿using FundManagement.Api.Data.Interfaces;
+using FundManagement.Api.DTOs.Fund;
 using FundManagement.Api.Models;
+using FundManagement.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
@@ -8,18 +10,18 @@ namespace FundManagement.Api.Controllers
     [Route("api/funds")]
     public class FundController : ControllerBase
     {
-        private readonly IFundRepository _repo;
+        private readonly FundService _fundService;
 
-        public FundController(IFundRepository repo)
+        public FundController(FundService fundService)
         {
-            _repo = repo;
+            _fundService = fundService;
         }
 
         // GET /api/funds?category=Equity
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? category)
         {
-            var funds = await _repo.GetAllAsync(category ?? "");
+            var funds = await _fundService.GetAllAsync(category);
             return Ok(funds);
         }
 
@@ -27,17 +29,16 @@ namespace FundManagement.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var fund = await _repo.GetByIdAsync(id);
-            if (fund == null) return NotFound();
+            var fund = await _fundService.GetByIdAsync(id);
             return Ok(fund);
         }
 
         // POST /api/funds
         [HttpPost]
-        public async Task<IActionResult> Create(Fund fund)
+        public async Task<IActionResult> Create(CreateFundDto createFundDto)
         {
             // TODO: Admin check later
-            var created = await _repo.AddAsync(fund);
+            var created = await _fundService.AddAsync(createFundDto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
     }

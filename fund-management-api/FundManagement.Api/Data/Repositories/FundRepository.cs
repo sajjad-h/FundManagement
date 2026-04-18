@@ -14,7 +14,7 @@ namespace FundManagement.Api.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Fund>> GetAllAsync(string category)
+        public async Task<List<Fund>> GetAllAsync(string? category)
         {
             var query = _context.Funds.AsQueryable();
 
