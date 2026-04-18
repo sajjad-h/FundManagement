@@ -1,4 +1,5 @@
 ﻿using FundManagement.Api.Data.Interfaces;
+using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.Models;
 using FundManagement.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -35,10 +36,10 @@ namespace FundManagement.Api.Controllers
 
         // POST /api/accounts
         [HttpPost]
-        public async Task<IActionResult> Create(Account account)
+        public async Task<IActionResult> Create(CreateAccountDto createAccountDto)
         {
             // TODO: Admin check later
-            var created = await _accountService.AddAsync(account);
+            var created = await _accountService.AddAsync(createAccountDto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
     }

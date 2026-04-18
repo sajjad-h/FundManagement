@@ -1,6 +1,8 @@
-﻿using FundManagement.Api.Data;
+﻿using FundManagement.Api.Common.Exceptions;
+using FundManagement.Api.Data;
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
+using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.Models;
 
 namespace FundManagement.Api.Services
@@ -8,25 +10,62 @@ namespace FundManagement.Api.Services
     public class AccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, IUserRepository userRepository)
         {
             _accountRepository = accountRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task<List<Account>> GetAllAsync()
+        public async Task<List<AccountResponseDto>> GetAllAsync()
         {
-            return await _accountRepository.GetAllAsync();
+            var accounts = await _accountRepository.GetAllAsync();
+            if (accounts == null || !accounts.Any())
+                return new List<AccountResponseDto>();
+
+            return accounts.Select(account => new AccountResponseDto
+            {
+                Id = account.Id,
+                UserId = account.UserId,
+                Balance = account.Balance
+            }).ToList();
         }
 
-        public async Task<Account?> GetByIdAsync(int id)
+        public async Task<AccountResponseDto?> GetByIdAsync(int id)
         {
-            return await _accountRepository.GetByIdAsync(id);
+            var account = await _accountRepository.GetByIdAsync(id);
+            if (account == null)
+                throw new NotFoundException("Account not found");
+
+            return new AccountResponseDto
+            {
+                Id = account.Id,
+                UserId = account.UserId,
+                Balance = account.Balance
+            };
         }
 
-        public async Task<Account> AddAsync(Account account)
+        public async Task<AccountResponseDto> AddAsync(CreateAccountDto createAccountDto)
         {
-            return await _accountRepository.AddAsync(account);
+            var user = await _userRepository.GetByIdAsync(createAccountDto.UserId);
+            if (user == null)
+                throw new NotFoundException("User not found");
+
+            var account = new Account
+            {
+                UserId = createAccountDto.UserId,
+                Balance = createAccountDto.InitialDeposit
+            };
+
+            await _accountRepository.AddAsync(account);
+
+            return new AccountResponseDto
+            {
+                Id = account.Id,
+                UserId = account.UserId,
+                Balance = account.Balance
+            };
         }
     }
 }
