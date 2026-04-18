@@ -1,6 +1,4 @@
-﻿using FundManagement.Api.DTOs.Account;
-using FundManagement.Api.DTOs.Fund;
-using FundManagement.Api.Models;
+﻿using FundManagement.Api.DTOs.Fund;
 
 namespace FundManagement.Api.Services.Interfaces
 {

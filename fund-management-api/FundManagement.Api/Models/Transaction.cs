@@ -1,6 +1,4 @@
-﻿using FundManagement.Api.Models;
-
-namespace FundManagement.Api.Models
+﻿namespace FundManagement.Api.Models
 {
     public class Transaction
     {

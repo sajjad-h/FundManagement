@@ -16,17 +16,24 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<List<Account>> GetAllAsync()
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Accounts
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Account?> GetByIdAsync(int id)
         {
-            return await _context.Accounts.FindAsync(id);
+            return await _context.Accounts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Account?> GetByIdAndUserIdAsync(int id, int userId)
         {
-            return await _context.Accounts.Where(a => a.Id == id && a.UserId == userId).FirstOrDefaultAsync();
+            return await _context.Accounts
+                .AsNoTracking()
+                .Where(a => a.Id == id && a.UserId == userId)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Account> AddAsync(Account account)

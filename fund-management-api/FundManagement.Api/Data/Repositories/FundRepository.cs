@@ -16,7 +16,9 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<List<Fund>> GetAllAsync(string? category)
         {
-            var query = _context.Funds.AsQueryable();
+            var query = _context.Funds
+                .AsNoTracking()
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(category))
                 query = query.Where(f => f.Category == category);
@@ -26,7 +28,9 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<Fund?> GetByIdAsync(int id)
         {
-            return await _context.Funds.FindAsync(id);
+            return await _context.Funds
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Fund> AddAsync(Fund fund)

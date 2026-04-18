@@ -16,17 +16,24 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<List<Portfolio>> GetAllAsync()
         {
-            return await _context.Portfolios.ToListAsync();
+            return await _context.Portfolios
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Portfolio?> GetByIdAsync(int id)
         {
-            return await _context.Portfolios.FindAsync(id);
+            return await _context.Portfolios
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Portfolio?> GetByUserIdAndFundIdAsync(int userId, int fundId)
         {
-            return await _context.Portfolios.Where(p => p.UserId == userId && p.FundId == fundId).FirstOrDefaultAsync();
+            return await _context.Portfolios
+                .AsNoTracking()
+                .Where(p => p.UserId == userId && p.FundId == fundId)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Portfolio> AddAsync(Portfolio portfolio)

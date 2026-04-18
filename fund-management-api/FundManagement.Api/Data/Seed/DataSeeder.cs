@@ -1,5 +1,4 @@
-﻿using FundManagement.Api.Data;
-using FundManagement.Api.Models;
+﻿using FundManagement.Api.Models;
 
 namespace FundManagement.Api.Data.Seed
 {

@@ -1,6 +1,4 @@
-﻿using FundManagement.Api.Data.Interfaces;
-using FundManagement.Api.DTOs.Fund;
-using FundManagement.Api.Models;
+﻿using FundManagement.Api.DTOs.Fund;
 using FundManagement.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 

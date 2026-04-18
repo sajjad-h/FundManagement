@@ -16,12 +16,16 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<List<Transaction>> GetAllAsync()
         {
-            return await _context.Transactions.ToListAsync();
+            return await _context.Transactions
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Transaction?> GetByIdAsync(int id)
         {
-            return await _context.Transactions.FindAsync(id);
+            return await _context.Transactions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<Transaction> AddAsync(Transaction transaction)

@@ -1,5 +1,4 @@
 ﻿using FundManagement.Api.DTOs.Account;
-using FundManagement.Api.Models;
 
 namespace FundManagement.Api.Services.Interfaces
 {

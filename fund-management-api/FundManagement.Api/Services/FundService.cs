@@ -1,8 +1,5 @@
 ﻿using FundManagement.Api.Common.Exceptions;
-using FundManagement.Api.Data;
 using FundManagement.Api.Data.Interfaces;
-using FundManagement.Api.Data.Repositories;
-using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.DTOs.Fund;
 using FundManagement.Api.Models;
 using FundManagement.Api.Services.Interfaces;
