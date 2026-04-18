@@ -6,5 +6,6 @@ namespace FundManagement.Api.Services.Interfaces
     {
         Task BuyUnitsAsync(BuyUnitsDto buyUnitsDto);
         Task SellUnitsAsync(SellUnitsDto sellUnitsDto);
+        Task<List<PortfolioSummaryDto>> GetSummaryAsync(int userId);
     }
 }

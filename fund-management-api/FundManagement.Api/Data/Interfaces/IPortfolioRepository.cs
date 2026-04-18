@@ -1,4 +1,5 @@
-﻿using FundManagement.Api.Models;
+﻿using FundManagement.Api.DTOs.Portfolio;
+using FundManagement.Api.Models;
 
 namespace FundManagement.Api.Data.Interfaces
 {
@@ -9,5 +10,6 @@ namespace FundManagement.Api.Data.Interfaces
         Task<Portfolio?> GetByUserIdAndFundIdAsync(int userId, int fundId);
         Task<Portfolio> AddAsync(Portfolio portfolio);
         Task<Portfolio> UpdateAsync(Portfolio portfolio);
+        Task<List<PortfolioSummaryDto>> GetSummaryAsync(int userId);
     }
 }

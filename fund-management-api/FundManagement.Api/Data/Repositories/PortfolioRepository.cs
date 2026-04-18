@@ -2,6 +2,7 @@
 
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Models;
+using FundManagement.Api.DTOs.Portfolio;
 
 namespace FundManagement.Api.Data.Repositories
 {
@@ -48,6 +49,30 @@ namespace FundManagement.Api.Data.Repositories
             _context.Portfolios.Update(portfolio);
             await _context.SaveChangesAsync();
             return portfolio;
+        }
+
+        public async Task<List<PortfolioSummaryDto>> GetSummaryAsync(int userId)
+        {
+            var summary = await _context.Portfolios
+                .AsNoTracking()
+                .Where(p => p.UserId == userId)
+                .Select(p => new
+                {
+                    p.Units,
+                    p.Fund.Category,
+                    CurrentNAV = p.Fund.NAV,
+                    p.PurchaseNAV
+                })
+                .GroupBy(x => x.Category)
+                .Select(g => new PortfolioSummaryDto
+                {
+                    Category = g.Key,
+                    TotalUnits = g.Sum(x => x.Units),
+                    CurrentValue = g.Sum(x => x.Units * x.CurrentNAV),
+                    Gain = g.Sum(x => x.Units * (x.CurrentNAV - x.PurchaseNAV))
+                })
+                .ToListAsync();
+            return summary;
         }
     }
 }

@@ -30,5 +30,13 @@ namespace FundManagement.Api.Controllers
             await _portfolioService.SellUnitsAsync(sellUnitsDto);
             return Ok();
         }
+
+        // GET /api/portfolios/summary
+        [HttpGet("summary")]
+        public async Task<IActionResult> GetSummaryAsync([FromQuery] int userId)
+        {
+            var summary = await _portfolioService.GetSummaryAsync(userId);
+            return Ok(summary);
+        }
     }
 }

@@ -131,5 +131,11 @@ namespace FundManagement.Api.Services
                 await _transactionRepository.AddAsync(transaction);
             });
         }
+
+        public async Task<List<PortfolioSummaryDto>> GetSummaryAsync(int userId)
+        {
+            return await _portfolioRepository.GetSummaryAsync(userId);
+        }
+
     }
 }
