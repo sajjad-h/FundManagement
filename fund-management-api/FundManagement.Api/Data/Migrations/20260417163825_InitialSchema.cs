@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FundManagement.Api.Migrations
+namespace FundManagement.Api.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialSchema : Migration

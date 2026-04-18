@@ -12,6 +12,7 @@ namespace FundManagement.Api.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,11 @@ namespace FundManagement.Api.Data
                 .HasOne(t => t.Portfolio)
                 .WithMany()
                 .HasForeignKey(t => t.PortfolioId);
+
+            modelBuilder.Entity<Account>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId);
         }
     }
 }
