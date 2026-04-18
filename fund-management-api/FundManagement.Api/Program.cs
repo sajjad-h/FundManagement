@@ -4,6 +4,7 @@ using FundManagement.Api.Data.Repositories;
 using FundManagement.Api.Data.Seed;
 using FundManagement.Api.Middleware;
 using FundManagement.Api.Services;
+using FundManagement.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,9 +28,11 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
-builder.Services.AddScoped<PortfolioService>();
-builder.Services.AddScoped<AccountService>();
-builder.Services.AddScoped<FundService>();
+builder.Services.AddScoped<ITransactionManager, EFTransactionManager>();
+
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IFundService, FundService>();
 
 var app = builder.Build();
 

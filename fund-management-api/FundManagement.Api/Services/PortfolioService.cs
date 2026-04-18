@@ -8,14 +8,16 @@ namespace FundManagement.Api.Services
 {
     public class PortfolioService : IPortfolioService
     {
+        private readonly ITransactionManager _tx;
         private readonly IUserRepository _userRepository;
         private readonly IFundRepository _fundRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IPortfolioRepository _portfolioRepository;
         private readonly ITransactionRepository _transactionRepository;
 
-        public PortfolioService(IUserRepository userRepository, IFundRepository fundRepository, IAccountRepository accountRepository, IPortfolioRepository portfolioRepository, ITransactionRepository transactionRepository)
+        public PortfolioService(ITransactionManager tx, IUserRepository userRepository, IFundRepository fundRepository, IAccountRepository accountRepository, IPortfolioRepository portfolioRepository, ITransactionRepository transactionRepository)
         {
+            _tx = tx;
             _userRepository = userRepository;
             _fundRepository = fundRepository;
             _accountRepository = accountRepository;
@@ -25,9 +27,9 @@ namespace FundManagement.Api.Services
 
         public async Task BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
         {
-            try
+            await _tx.ExecuteAsync(async () =>
             {
-                var ( userId, accountId, fundId, amount ) = buyUnitsDto;
+                var (userId, accountId, fundId, amount) = buyUnitsDto;
 
                 var user = await _userRepository.GetByIdAsync(userId);
                 if (user == null)
@@ -78,16 +80,12 @@ namespace FundManagement.Api.Services
                 };
 
                 await _transactionRepository.AddAsync(transaction);
-            }
-            catch
-            {
-                throw;
-            }
+            });
         }
 
         public async Task SellUnitsAsync(SellUnitsDto sellUnitsDto)
         {
-            try
+            await _tx.ExecuteAsync(async () =>
             {
                 var (userId, accountId, fundId, unitsToSell) = sellUnitsDto;
 
@@ -131,11 +129,7 @@ namespace FundManagement.Api.Services
                 };
 
                 await _transactionRepository.AddAsync(transaction);
-            }
-            catch
-            {
-                throw;
-            }
+            });
         }
     }
 }

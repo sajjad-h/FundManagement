@@ -1,7 +1,5 @@
-﻿using FundManagement.Api.Data.Interfaces;
-using FundManagement.Api.DTOs.Portfolio;
-using FundManagement.Api.Models;
-using FundManagement.Api.Services;
+﻿using FundManagement.Api.DTOs.Portfolio;
+using FundManagement.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
@@ -10,9 +8,9 @@ namespace FundManagement.Api.Controllers
     [Route("api/portfolios")]
     public class PortfolioController : ControllerBase
     {
-        private readonly PortfolioService _portfolioService;
+        private readonly IPortfolioService _portfolioService;
 
-        public PortfolioController(PortfolioService portfolioService)
+        public PortfolioController(IPortfolioService portfolioService)
         {
             _portfolioService = portfolioService;
         }

@@ -1,5 +1,5 @@
 ﻿using FundManagement.Api.DTOs.Fund;
-using FundManagement.Api.Services;
+using FundManagement.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
@@ -8,9 +8,9 @@ namespace FundManagement.Api.Controllers
     [Route("api/funds")]
     public class FundController : ControllerBase
     {
-        private readonly FundService _fundService;
+        private readonly IFundService _fundService;
 
-        public FundController(FundService fundService)
+        public FundController(IFundService fundService)
         {
             _fundService = fundService;
         }
