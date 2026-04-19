@@ -43,6 +43,10 @@ namespace FundManagement.Api.Data
                 .HasOne(t => t.User)
                 .WithMany()
                 .HasForeignKey(t => t.UserId);
+
+            modelBuilder.Entity<FundNAVHistory>()
+                .HasIndex(x => new { x.FundId, x.Date })
+                .IsUnique();
         }
     }
 }
