@@ -7,6 +7,7 @@ namespace FundManagement.Api.Services.Interfaces
         Task<List<FundResponseDto>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn);
         Task<FundResponseDto?> GetByIdAsync(int id);
         Task<FundResponseDto> AddAsync(CreateFundDto createFundDto);
-        Task<List<NAVRecord>> GetFundNAVHistoryByFundIdAsync(int fundId);
+        Task<List<NAVRecordDto>> GetFundNAVHistoryByFundIdAsync(int fundId);
+        IAsyncEnumerable<NAVRecordDto> GetStreamFundNAVHistoryByFundIdAsync(int fundId);
     }
 }

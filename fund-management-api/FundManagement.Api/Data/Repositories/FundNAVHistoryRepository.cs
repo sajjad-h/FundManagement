@@ -22,5 +22,14 @@ namespace FundManagement.Api.Data.Repositories
                 .OrderByDescending(h => h.Date)
                 .ToListAsync();
         }
+
+        public IAsyncEnumerable<FundNAVHistory> GetStreamByFundIdAsync(int fundId)
+        {
+            return _context.FundNAVHistories
+                .AsNoTracking()
+                .Where(h => h.FundId == fundId)
+                .OrderByDescending(h => h.Date)
+                .AsAsyncEnumerable();
+        }
     }
 }

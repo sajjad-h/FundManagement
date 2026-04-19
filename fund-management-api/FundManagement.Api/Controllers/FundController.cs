@@ -1,4 +1,5 @@
 ﻿using FundManagement.Api.DTOs.Fund;
+using FundManagement.Api.Models;
 using FundManagement.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,12 +41,20 @@ namespace FundManagement.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        // GET /api/funds/{id}
+        // GET /api/funds/{id}/nav-history
         [HttpGet("{id}/nav-history")]
         public async Task<IActionResult> GetFundNAVHistoryByFundId(int id)
         {
             var histories = await _fundService.GetFundNAVHistoryByFundIdAsync(id);
             return Ok(histories);
+        }
+
+        // GET /api/funds/{id}/nav-history/stream
+        [HttpGet("{id}/nav-history/stream")]
+        public async IAsyncEnumerable<NAVRecordDto> GetStreamFundNAVHistoryByFundId(int id)
+        {
+            await foreach (var record in _fundService.GetStreamFundNAVHistoryByFundIdAsync(id))
+                yield return record;
         }
     }
 }

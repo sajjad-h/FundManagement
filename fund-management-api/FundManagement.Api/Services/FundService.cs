@@ -70,15 +70,30 @@ namespace FundManagement.Api.Services
             };
         }
 
-        public async Task<List<NAVRecord>> GetFundNAVHistoryByFundIdAsync(int fundId)
+        public async Task<List<NAVRecordDto>> GetFundNAVHistoryByFundIdAsync(int fundId)
         {
             var histories = await _fundNAVHistoryRepository.GetByFundIdAsync(fundId);
 
-            return histories.Select(h => new NAVRecord
+            return histories.Select(h => new NAVRecordDto
             {
                 Date = h.Date,
                 NAV = h.NAV
             }).ToList();
+        }
+
+        public async IAsyncEnumerable<NAVRecordDto> GetStreamFundNAVHistoryByFundIdAsync(int fundId)
+        {
+            await foreach (var item in _fundNAVHistoryRepository.GetStreamByFundIdAsync(fundId))
+            {
+                // simulate slow data
+                //await Task.Delay(300); 
+
+                yield return new NAVRecordDto
+                {
+                    Date = item.Date,
+                    NAV = item.NAV
+                };
+            }
         }
     }
 }
