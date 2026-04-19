@@ -25,6 +25,21 @@ namespace FundManagement.Api.Services
             _transactionRepository = transactionRepository;
         }
 
+        public async Task<List<PortfolioResponseDto>> GetAllAsync()
+        {
+            var portfolios = await _portfolioRepository.GetAllAsync();
+
+            return portfolios.Select(p => new PortfolioResponseDto
+            {
+                Id = p.Id,
+                UserEmail = p.User.Email,
+                FundName = p.Fund.Name,   // 🔥 triggers query per row
+                FundCategory = p.Fund.Category,
+                Units = p.Units,
+                PurchaseNAV = p.PurchaseNAV
+            }).ToList();
+        }
+
         public async Task BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
         {
             await _tx.ExecuteAsync(async () =>

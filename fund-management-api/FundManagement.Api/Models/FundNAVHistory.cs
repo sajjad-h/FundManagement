@@ -9,6 +9,6 @@ namespace FundManagement.Api.Models
         public decimal NAV { get; set; }
         public DateTime Date { get; set; }
 
-        public Fund Fund { get; set; } = null!;
+        public virtual Fund Fund { get; set; } = null!;
     }
 }

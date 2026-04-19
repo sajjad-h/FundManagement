@@ -8,7 +8,7 @@
         public decimal Units { get; set; }
         public decimal PurchaseNAV { get; set; }
 
-        public User User { get; set; } = null!;
-        public Fund Fund { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
+        public virtual Fund Fund { get; set; } = null!;
     }
 }

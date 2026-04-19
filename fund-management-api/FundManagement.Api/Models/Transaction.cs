@@ -9,6 +9,6 @@
         public decimal NAV { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public Portfolio Portfolio { get; set; } = null!;
+        public virtual Portfolio Portfolio { get; set; } = null!;
     }
 }

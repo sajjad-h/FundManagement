@@ -1,4 +1,5 @@
 ﻿using FundManagement.Api.DTOs.Portfolio;
+using FundManagement.Api.Services;
 using FundManagement.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,14 @@ namespace FundManagement.Api.Controllers
         public PortfolioController(IPortfolioService portfolioService)
         {
             _portfolioService = portfolioService;
+        }
+
+        // GET /api/portfolios
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var portfolios = await _portfolioService.GetAllAsync();
+            return Ok(portfolios);
         }
 
         // POST /api/portfolios/buy

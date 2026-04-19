@@ -17,6 +17,23 @@ namespace FundManagement.Api.Data.Repositories
 
         public async Task<List<Portfolio>> GetAllAsync()
         {
+            var portfolios = await _context.Portfolios
+                // This line makes eager loading, without this lazy loading when enabled
+                //.Include(p => p.Fund)
+                .ToListAsync();
+
+            // This part doesn't make duplicate queries as tracking is active. But service side there are no tracking so duplicate query exists.
+            var result = portfolios.Select(p => new PortfolioResponseDto
+            {
+                Id = p.Id,
+                UserEmail = p.User.Email,
+                FundName = p.Fund.Name,   // 🔥 triggers query per row
+                FundCategory = p.Fund.Category,
+                Units = p.Units,
+                PurchaseNAV = p.PurchaseNAV
+            }).ToList();
+
+            // No tracking here. Duplicate query exists. EF Core tracking is very smart.
             return await _context.Portfolios
                 .AsNoTracking()
                 .ToListAsync();
