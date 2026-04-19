@@ -39,5 +39,13 @@ namespace FundManagement.Api.Controllers
             var created = await _fundService.AddAsync(createFundDto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
+
+        // GET /api/funds/{id}
+        [HttpGet("{id}/nav-history")]
+        public async Task<IActionResult> GetFundNAVHistoryByFundId(int id)
+        {
+            var histories = await _fundService.GetFundNAVHistoryByFundIdAsync(id);
+            return Ok(histories);
+        }
     }
 }

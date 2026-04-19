@@ -9,10 +9,12 @@ namespace FundManagement.Api.Services
     public class FundService : IFundService
     {
         private readonly IFundRepository _fundRepository;
+        private readonly IFundNAVHistoryRepository _fundNAVHistoryRepository;
 
-        public FundService(IFundRepository fundRepository)
+        public FundService(IFundRepository fundRepository, IFundNAVHistoryRepository fundNAVHistoryRepository)
         {
             _fundRepository = fundRepository;
+            _fundNAVHistoryRepository = fundNAVHistoryRepository;
         }
 
         public async Task<List<FundResponseDto>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn = false)
@@ -66,6 +68,17 @@ namespace FundManagement.Api.Services
                 NAV = fund.NAV,
                 CreatedAt = fund.CreatedAt
             };
+        }
+
+        public async Task<List<NAVRecord>> GetFundNAVHistoryByFundIdAsync(int fundId)
+        {
+            var histories = await _fundNAVHistoryRepository.GetByFundIdAsync(fundId);
+
+            return histories.Select(h => new NAVRecord
+            {
+                Date = h.Date,
+                NAV = h.NAV
+            }).ToList();
         }
     }
 }
