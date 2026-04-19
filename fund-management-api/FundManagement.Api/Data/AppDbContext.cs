@@ -13,6 +13,7 @@ namespace FundManagement.Api.Data
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<FundNAVHistory> FundNAVHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

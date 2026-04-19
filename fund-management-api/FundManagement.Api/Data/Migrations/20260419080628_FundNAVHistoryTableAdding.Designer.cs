@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FundManagement.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260418152537_FundNAVHistoryTableAdding")]
+    [Migration("20260419080628_FundNAVHistoryTableAdding")]
     partial class FundNAVHistoryTableAdding
     {
         /// <inheritdoc />
@@ -98,7 +98,7 @@ namespace FundManagement.Api.Data.Migrations
                     b.HasIndex("FundId", "Date")
                         .IsUnique();
 
-                    b.ToTable("FundNAVHistory");
+                    b.ToTable("FundNAVHistories");
                 });
 
             modelBuilder.Entity("FundManagement.Api.Models.Portfolio", b =>

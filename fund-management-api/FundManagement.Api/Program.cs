@@ -44,7 +44,8 @@ using (var scope = app.Services.CreateScope())
 
     if (env.IsDevelopment())
     {
-        await DataSeeder.SeedAsync(context);
+        await DataSeeder.SeedFundAndUserAsync(context);
+        await DataSeeder.SeedNavHistoryAsync(context);
     }
 }
 

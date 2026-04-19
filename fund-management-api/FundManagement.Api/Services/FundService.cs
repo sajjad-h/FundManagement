@@ -15,9 +15,9 @@ namespace FundManagement.Api.Services
             _fundRepository = fundRepository;
         }
 
-        public async Task<List<FundResponseDto>> GetAllAsync(string? category)
+        public async Task<List<FundResponseDto>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn = false)
         {
-            var funds = await _fundRepository.GetAllAsync(category);
+            var funds = await _fundRepository.GetAllAsync(category, curNAVGreaterThan30FilterOn);
             if (funds == null || !funds.Any())
                 return new List<FundResponseDto>();
 

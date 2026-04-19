@@ -12,7 +12,7 @@ namespace FundManagement.Api.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "FundNAVHistory",
+                name: "FundNAVHistories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -23,9 +23,9 @@ namespace FundManagement.Api.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FundNAVHistory", x => x.Id);
+                    table.PrimaryKey("PK_FundNAVHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FundNAVHistory_Funds_FundId",
+                        name: "FK_FundNAVHistories_Funds_FundId",
                         column: x => x.FundId,
                         principalTable: "Funds",
                         principalColumn: "Id",
@@ -33,8 +33,8 @@ namespace FundManagement.Api.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FundNAVHistory_FundId_Date",
-                table: "FundNAVHistory",
+                name: "IX_FundNAVHistories_FundId_Date",
+                table: "FundNAVHistories",
                 columns: new[] { "FundId", "Date" },
                 unique: true);
         }
@@ -43,7 +43,7 @@ namespace FundManagement.Api.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FundNAVHistory");
+                name: "FundNAVHistories");
         }
     }
 }

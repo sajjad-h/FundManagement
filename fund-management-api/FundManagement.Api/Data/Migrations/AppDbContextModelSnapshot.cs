@@ -95,7 +95,7 @@ namespace FundManagement.Api.Data.Migrations
                     b.HasIndex("FundId", "Date")
                         .IsUnique();
 
-                    b.ToTable("FundNAVHistory");
+                    b.ToTable("FundNAVHistories");
                 });
 
             modelBuilder.Entity("FundManagement.Api.Models.Portfolio", b =>

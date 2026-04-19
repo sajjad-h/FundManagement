@@ -1,10 +1,11 @@
 ﻿using FundManagement.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FundManagement.Api.Data.Seed
 {
     public class DataSeeder
     {
-        public static async Task SeedAsync(AppDbContext context)
+        public static async Task SeedFundAndUserAsync(AppDbContext context)
         {
             if (context.Funds.Any()) return; // prevent duplicate
 
@@ -26,6 +27,48 @@ namespace FundManagement.Api.Data.Seed
             await context.Funds.AddRangeAsync(funds);
             await context.Users.AddRangeAsync(users);
 
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedNavHistoryAsync(AppDbContext context)
+        {
+            // Ensure DB is created
+            await context.Database.EnsureCreatedAsync();
+
+            // If already seeded, skip
+            if (await context.FundNAVHistories.AnyAsync())
+                return;
+
+            var funds = await context.Funds.ToListAsync();
+
+            if (!funds.Any())
+                return;
+
+            var random = new Random();
+            var histories = new List<FundNAVHistory>();
+
+            foreach (var fund in funds)
+            {
+                var baseNav = fund.NAV;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    var date = DateTime.UtcNow.Date.AddDays(-i);
+
+                    // simulate NAV fluctuation ±5%
+                    var fluctuation = (decimal)(random.NextDouble() * 0.1 - 0.05);
+                    var nav = baseNav * (1 + fluctuation);
+
+                    histories.Add(new FundNAVHistory
+                    {
+                        FundId = fund.Id,
+                        Date = date,
+                        NAV = Math.Round(nav, 4)
+                    });
+                }
+            }
+
+            await context.FundNAVHistories.AddRangeAsync(histories);
             await context.SaveChangesAsync();
         }
     }

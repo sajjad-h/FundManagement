@@ -14,7 +14,7 @@ namespace FundManagement.Api.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Fund>> GetAllAsync(string? category)
+        public async Task<List<Fund>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn = false)
         {
             var query = _context.Funds
                 .AsNoTracking()
@@ -22,6 +22,14 @@ namespace FundManagement.Api.Data.Repositories
 
             if (!string.IsNullOrEmpty(category))
                 query = query.Where(f => f.Category == category);
+
+            if (curNAVGreaterThan30FilterOn == true)
+                query = query.Where(f =>
+                    f.NAV >
+                    (_context.FundNAVHistories
+                        .Where(h => h.FundId == f.Id && h.Date >= DateTime.UtcNow.AddDays(-30))
+                        .Average(h => (decimal?) h.NAV) ?? 0)
+                );
 
             return await query.ToListAsync();
         }

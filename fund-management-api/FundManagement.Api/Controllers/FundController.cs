@@ -17,9 +17,9 @@ namespace FundManagement.Api.Controllers
 
         // GET /api/funds?category=Equity
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? category)
+        public async Task<IActionResult> GetAll([FromQuery] string? category, [FromQuery] bool? curNAVGreaterThan30FilterOn)
         {
-            var funds = await _fundService.GetAllAsync(category);
+            var funds = await _fundService.GetAllAsync(category, curNAVGreaterThan30FilterOn);
             return Ok(funds);
         }
 
