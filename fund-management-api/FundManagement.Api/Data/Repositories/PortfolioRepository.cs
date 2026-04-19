@@ -19,6 +19,8 @@ namespace FundManagement.Api.Data.Repositories
         {
             return await _context.Portfolios
                 .AsNoTracking()
+                .Include(p => p.Fund)
+                .Include(p => p.User)
                 .ToListAsync();
         }
 

@@ -15,6 +15,14 @@ namespace FundManagement.Api.Controllers
             _portfolioService = portfolioService;
         }
 
+        // GET /api/portfolios
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var portfolios = await _portfolioService.GetAllAsync();
+            return Ok(portfolios);
+        }
+
         // POST /api/portfolios/buy
         [HttpPost("buy")]
         public async Task<IActionResult> BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
