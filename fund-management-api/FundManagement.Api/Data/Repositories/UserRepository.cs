@@ -28,6 +28,13 @@ namespace FundManagement.Api.Data.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Email == email);
+        }
+
         public async Task<User> AddAsync(User user)
         {
             _context.Users.Add(user);

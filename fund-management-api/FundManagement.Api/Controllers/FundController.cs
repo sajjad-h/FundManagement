@@ -1,10 +1,12 @@
 ﻿using FundManagement.Api.DTOs.Fund;
 using FundManagement.Api.Models;
 using FundManagement.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/funds")]
     public class FundController : ControllerBase
