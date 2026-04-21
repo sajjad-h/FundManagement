@@ -48,6 +48,19 @@ namespace FundManagement.Api.Data
             modelBuilder.Entity<FundNAVHistory>()
                 .HasIndex(x => new { x.FundId, x.Date })
                 .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<User>()
+                .ToTable(t =>
+                {
+                    t.HasCheckConstraint(
+                        "CK_User_Role",
+                        "[Role] IN ('Admin', 'Investor')"
+                    );
+                });
         }
     }
 }

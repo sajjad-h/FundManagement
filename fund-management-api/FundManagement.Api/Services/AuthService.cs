@@ -30,7 +30,7 @@ namespace FundManagement.Api.Services
             {
                 Email = email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                Role = "Investor"
+                Role = Role.Investor
             };
 
             await _userRepository.AddAsync(user);
