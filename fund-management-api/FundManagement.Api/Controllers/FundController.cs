@@ -18,6 +18,7 @@ namespace FundManagement.Api.Controllers
             _fundService = fundService;
         }
 
+        // TODO: Maybe it should be a public API
         // GET /api/funds?category=Equity
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? category, [FromQuery] bool? curNAVGreaterThan30FilterOn)
@@ -26,6 +27,7 @@ namespace FundManagement.Api.Controllers
             return Ok(funds);
         }
 
+        // TODO: Maybe it should be a public API
         // GET /api/funds/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -35,6 +37,7 @@ namespace FundManagement.Api.Controllers
         }
 
         // POST /api/funds
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateFundDto createFundDto)
         {
@@ -43,6 +46,7 @@ namespace FundManagement.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        // TODO: Maybe it should be a public API
         // GET /api/funds/{id}/nav-history
         [HttpGet("{id}/nav-history")]
         public async Task<IActionResult> GetFundNAVHistoryByFundId(int id)
@@ -51,6 +55,7 @@ namespace FundManagement.Api.Controllers
             return Ok(histories);
         }
 
+        // TODO: Maybe it should be a public API
         // GET /api/funds/{id}/nav-history/stream
         [HttpGet("{id}/nav-history/stream")]
         public async IAsyncEnumerable<NAVRecordDto> GetStreamFundNAVHistoryByFundId(int id)
