@@ -1,9 +1,11 @@
 ﻿using FundManagement.Api.DTOs.Account;
 using FundManagement.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/accounts")]
     public class AccountController : ControllerBase
@@ -16,6 +18,7 @@ namespace FundManagement.Api.Controllers
         }
 
         // GET /api/accounts
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,6 +26,7 @@ namespace FundManagement.Api.Controllers
             return Ok(accounts);
         }
 
+        // TODO: user can see only his account not others
         // GET /api/accounts/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -32,6 +36,10 @@ namespace FundManagement.Api.Controllers
             return Ok(account);
         }
 
+        /**
+         * TODO: Admin can create account for other user,
+         *       Investor can create account only for himself/herself
+         */
         // POST /api/accounts
         [HttpPost]
         public async Task<IActionResult> Create(CreateAccountDto createAccountDto)

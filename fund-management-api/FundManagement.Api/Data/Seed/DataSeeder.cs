@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FundManagement.Api.Data.Seed
 {
-    public class DataSeeder
+    public static class DataSeeder
     {
         public static async Task SeedFundAndUserAsync(AppDbContext context)
         {
-            if (context.Funds.Any()) return; // prevent duplicate
+            if (await context.Funds.AnyAsync()) return; // prevent duplicate
 
             var funds = new List<Fund>
             {
@@ -20,8 +20,8 @@ namespace FundManagement.Api.Data.Seed
 
             var users = new List<User>
             {
-                new User { Email = "admin@test.com", PasswordHash = "hashed", Role = "Admin" },
-                new User { Email = "user@test.com", PasswordHash = "hashed", Role = "Investor" }
+                new User { Email = "admin@test.com", PasswordHash = "hashed", Role = Role.Admin },
+                new User { Email = "user@test.com", PasswordHash = "hashed", Role = Role.Investor }
             };
 
             await context.Funds.AddRangeAsync(funds);

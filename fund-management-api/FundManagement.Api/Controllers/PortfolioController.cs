@@ -1,9 +1,11 @@
 ﻿using FundManagement.Api.DTOs.Portfolio;
 using FundManagement.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FundManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/portfolios")]
     public class PortfolioController : ControllerBase
@@ -16,6 +18,7 @@ namespace FundManagement.Api.Controllers
         }
 
         // GET /api/portfolios
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,6 +26,7 @@ namespace FundManagement.Api.Controllers
             return Ok(portfolios);
         }
 
+        // TODO: Have to make sure, Investor only buy for his him, not others.
         // POST /api/portfolios/buy
         [HttpPost("buy")]
         public async Task<IActionResult> BuyUnitsAsync(BuyUnitsDto buyUnitsDto)
@@ -31,6 +35,7 @@ namespace FundManagement.Api.Controllers
             return Ok();
         }
 
+        // TODO: Have to make sure, Investor only sell his units, not others.
         // POST /api/portfolios/sell
         [HttpPost("sell")]
         public async Task<IActionResult> SellUnitsAsync(SellUnitsDto sellUnitsDto)
@@ -39,6 +44,7 @@ namespace FundManagement.Api.Controllers
             return Ok();
         }
 
+        // TODO: Have to make sure, Investor only see his own portfolio summary, not others.
         // GET /api/portfolios/summary
         [HttpGet("summary")]
         public async Task<IActionResult> GetSummaryAsync([FromQuery] int userId)
