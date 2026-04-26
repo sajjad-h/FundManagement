@@ -1,6 +1,6 @@
 namespace FundManagement.Api.DTOs.Fund
 {
-    public class CreateFundDto
+    public class UpdateFundDto
     {
         public string Name { get; set; } = null!;
         public string Category { get; set; } = null!;

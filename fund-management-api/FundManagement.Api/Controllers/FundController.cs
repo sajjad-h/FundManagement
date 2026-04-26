@@ -41,9 +41,26 @@ namespace FundManagement.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateFundDto createFundDto)
         {
-            // TODO: Admin check later
             var created = await _fundService.AddAsync(createFundDto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        }
+
+        // PUT /api/funds/{id}
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateFundDto updateFundDto)
+        {
+            var updated = await _fundService.UpdateAsync(id, updateFundDto);
+            return Ok(updated);
+        }
+
+        // DELETE /api/funds/{id}
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _fundService.DeleteAsync(id);
+            return NoContent();
         }
 
         // TODO: Maybe it should be a public API

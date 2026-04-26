@@ -47,5 +47,18 @@ namespace FundManagement.Api.Data.Repositories
             await _context.SaveChangesAsync();
             return fund;
         }
+
+        public async Task<Fund> UpdateAsync(Fund fund)
+        {
+            _context.Funds.Update(fund);
+            await _context.SaveChangesAsync();
+            return fund;
+        }
+
+        public async Task DeleteAsync(Fund fund)
+        {
+            _context.Funds.Remove(fund);
+            await _context.SaveChangesAsync();
+        }
     }
 }

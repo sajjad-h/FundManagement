@@ -7,5 +7,7 @@ namespace FundManagement.Api.Data.Interfaces
         Task<List<Fund>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn);
         Task<Fund?> GetByIdAsync(int id);
         Task<Fund> AddAsync(Fund fund);
+        Task<Fund> UpdateAsync(Fund fund);
+        Task DeleteAsync(Fund fund);
     }
 }

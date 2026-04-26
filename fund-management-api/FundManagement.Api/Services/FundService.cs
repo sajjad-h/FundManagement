@@ -70,6 +70,35 @@ namespace FundManagement.Api.Services
             };
         }
 
+        public async Task<FundResponseDto> UpdateAsync(int id, UpdateFundDto dto)
+        {
+            var fund = await _fundRepository.GetByIdAsync(id)
+                ?? throw new NotFoundException("Fund not found");
+
+            fund.Name = dto.Name;
+            fund.Category = dto.Category;
+            fund.NAV = dto.NAV;
+
+            var updated = await _fundRepository.UpdateAsync(fund);
+
+            return new FundResponseDto
+            {
+                Id = updated.Id,
+                Name = updated.Name,
+                Category = updated.Category,
+                NAV = updated.NAV,
+                CreatedAt = updated.CreatedAt
+            };
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var fund = await _fundRepository.GetByIdAsync(id)
+                ?? throw new NotFoundException("Fund not found");
+
+            await _fundRepository.DeleteAsync(fund);
+        }
+
         public async Task<List<NAVRecordDto>> GetFundNAVHistoryByFundIdAsync(int fundId)
         {
             var histories = await _fundNAVHistoryRepository.GetByFundIdAsync(fundId);

@@ -6,6 +6,6 @@ namespace FundManagement.Api.Services.Interfaces
     {
         Task<List<AccountResponseDto>> GetAllAsync();
         Task<AccountResponseDto?> GetByIdAsync(int id);
-        Task<AccountResponseDto> AddAsync(CreateAccountDto createResponseDto);
+        Task<AccountResponseDto> AddAsync(CreateAccountDto createAccountDto);
     }
 }

@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using FundManagement.Api.Data;
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
@@ -40,6 +42,8 @@ builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -121,4 +125,4 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
