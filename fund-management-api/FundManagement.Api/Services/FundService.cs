@@ -1,8 +1,10 @@
 ﻿using FundManagement.Api.Common.Exceptions;
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.DTOs.Fund;
+using FundManagement.Api.Hubs;
 using FundManagement.Api.Models;
 using FundManagement.Api.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FundManagement.Api.Services
 {
@@ -10,11 +12,13 @@ namespace FundManagement.Api.Services
     {
         private readonly IFundRepository _fundRepository;
         private readonly IFundNAVHistoryRepository _fundNAVHistoryRepository;
+        private readonly IHubContext<NAVHub> _hubContext;
 
-        public FundService(IFundRepository fundRepository, IFundNAVHistoryRepository fundNAVHistoryRepository)
+        public FundService(IFundRepository fundRepository, IFundNAVHistoryRepository fundNAVHistoryRepository, IHubContext<NAVHub> hubContext)
         {
             _fundRepository = fundRepository;
             _fundNAVHistoryRepository = fundNAVHistoryRepository;
+            _hubContext = hubContext;
         }
 
         public async Task<List<FundResponseDto>> GetAllAsync(string? category, bool? curNAVGreaterThan30FilterOn = false)
@@ -75,11 +79,25 @@ namespace FundManagement.Api.Services
             var fund = await _fundRepository.GetByIdAsync(id)
                 ?? throw new NotFoundException("Fund not found");
 
+            decimal oldNAV = fund.NAV;
+
             fund.Name = dto.Name;
             fund.Category = dto.Category;
             fund.NAV = dto.NAV;
 
             var updated = await _fundRepository.UpdateAsync(fund);
+
+            if (updated.NAV != oldNAV)
+            {
+                await _hubContext.Clients
+                    .Group($"fund-{updated.Id}")
+                    .SendAsync("ReceiveNAVUpdate", new NAVUpdateDto
+                    {
+                        FundId = updated.Id,
+                        NAV = updated.NAV,
+                        UpdatedAt = DateTime.UtcNow
+                    });
+            }
 
             return new FundResponseDto
             {

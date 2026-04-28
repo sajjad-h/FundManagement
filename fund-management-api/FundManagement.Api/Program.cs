@@ -4,6 +4,7 @@ using FundManagement.Api.Data;
 using FundManagement.Api.Data.Interfaces;
 using FundManagement.Api.Data.Repositories;
 using FundManagement.Api.Data.Seed;
+using FundManagement.Api.Hubs;
 using FundManagement.Api.Middleware;
 using FundManagement.Api.Services;
 using FundManagement.Api.Services.Interfaces;
@@ -54,9 +55,11 @@ try
         options.AddPolicy("AllowNextJs", policy =>
             policy.WithOrigins("http://localhost:3000")
                   .AllowAnyHeader()
-                  .AllowAnyMethod());
+                  .AllowAnyMethod()
+                  .AllowCredentials());
     });
 
+    builder.Services.AddSignalR();
     builder.Services.AddControllers();
     builder.Services.AddFluentValidationAutoValidation();
     builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -131,6 +134,7 @@ try
     app.UseAuthentication();                        // 6. establish identity from JWT
     app.UseAuthorization();                         // 7. enforce [Authorize] policies
     app.MapControllers();                           // 8. route to controller actions
+    app.MapHub<NAVHub>("/hubs/nav");               // 9. SignalR hub
 
     await app.RunAsync();
 }
@@ -140,5 +144,5 @@ catch (Exception ex) when (ex is not HostAbortedException)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }
